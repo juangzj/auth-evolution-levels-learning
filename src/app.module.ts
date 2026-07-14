@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './users/users.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -32,10 +33,12 @@ import * as Joi from 'joi';
         password: configService.getOrThrow<string>('DB_PASSWORD'),
         database: configService.getOrThrow<string>('DB_NAME'),
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: true,
         logging: configService.get('NODE_ENV') === 'development',
       }),
     }),
+
+    UserModule,
   ],
 })
 export class AppModule {}
