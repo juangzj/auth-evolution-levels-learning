@@ -26,6 +26,10 @@ export class UserService {
     if (existingUser) {
       throw new ConflictException('Email is already exists');
     }
+
+    if (createUserDto.password !== createUserDto.confirmPassword) {
+      throw new ConflictException('The passwords do not match');
+    }
     // hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(

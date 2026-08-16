@@ -1,0 +1,6 @@
+allowBuilds:
+  bcrypt: true
+  unrs-resolver: true
+onlyBuiltDependencies:
+  - bcrypt
+  - unrs-resolver
