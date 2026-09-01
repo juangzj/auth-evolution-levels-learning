@@ -1,16 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router";
-import LandingPage from "./pages/landing/LandingPage";
-import RegisterPage from "./pages/register/RegisterPage";
-import LoginPage from "./pages/login/LoginPage";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthProvider";
+import { AppRouter } from "./routes/AppRouter";
+import { NotificationProvider } from "./notifications/NotificationProvider";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Routes>
+      <NotificationProvider>
+        <AuthProvider>
+          <AppRouter />
+        </AuthProvider>
+      </NotificationProvider>
     </BrowserRouter>
   );
 }

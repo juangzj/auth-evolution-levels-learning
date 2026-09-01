@@ -18,7 +18,7 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    // check if user alreasy exists
+    // check if user already exists
     const existingUser = await this.userRepository.findOne({
       where: { email: createUserDto.email },
     });
@@ -49,16 +49,16 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-  async findOneByID(id: string): Promise<User> {
+  async findById(id: string): Promise<User> {
     const user = await this.userRepository.findOneBy({ id });
     if (!user) {
-      throw new NotFoundException(`User with ID: ${id} not found`);
+      throw new NotFoundException(`User not found`);
     }
     return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.findOneByID(id);
+    const user = await this.findById(id);
 
     this.userRepository.merge(user, updateUserDto);
 
@@ -66,7 +66,16 @@ export class UserService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.findOneByID(id);
+    await this.findById(id);
     await this.userRepository.delete(id);
+  }
+  async findByEmailForAuth(emailToFind: string): Promise<User | null> {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :email', {
+        email: emailToFind,
+      })
+      .getOne();
   }
 }

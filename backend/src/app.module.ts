@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './users/users.module';
 import * as Joi from 'joi';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,9 @@ import * as Joi from 'joi';
         DB_USER: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
+
+        //JWT configuration
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
 
@@ -39,6 +43,7 @@ import * as Joi from 'joi';
     }),
 
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
