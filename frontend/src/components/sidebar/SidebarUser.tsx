@@ -1,4 +1,4 @@
-import type { User } from "../../features/user/types/user.type";
+import type { User } from "../../features/user/types/model/user.type";
 
 interface SidebarUserProps {
   user: User | null;

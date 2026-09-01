@@ -1,4 +1,4 @@
-import type { UserTableProps } from "../types/user.type";
+import type { UserTableProps } from "../types/model/user.type";
 
 export const UserTable = ({ users }: UserTableProps) => {
   return (

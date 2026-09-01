@@ -1,4 +1,4 @@
-import type { User } from "./user.type";
+import type { User } from "./model/user.type";
 export interface UserTableProps {
   users: User[];
 }

@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-
 import { AuthContext } from "./AuthContext";
-
 import type { AuthContext as AuthContextType } from "./types/auth-context.type";
-
-import { getMe } from "../features/auth/auth.api";
+import { getMe, logout as logoutApi } from "../features/auth/auth.api";
 
 // Provides the authentication state
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -28,12 +25,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadUser();
   }, []);
 
+  const logout = async () => {
+    try {
+      await logoutApi();
+    } finally {
+      setUser(null);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
         isAuthenticated: user !== null,
         isLoading,
+        logout,
       }}
     >
       {children}

@@ -7,5 +7,3 @@ export interface User {
   confirmPassword: string;
   role: "USER" | "ADMIN";
 }
-
-export type UserData = User;

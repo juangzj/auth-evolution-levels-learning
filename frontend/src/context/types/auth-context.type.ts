@@ -1,7 +1,8 @@
-import type { UserData } from "../../features/user/types/user.type";
+import type { User } from "../../features/user/types/model/user.type";
 
 export interface AuthContext {
-  user: UserData | null;
+  user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  logout: () => Promise<void>;
 }

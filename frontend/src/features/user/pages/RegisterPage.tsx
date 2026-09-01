@@ -1,7 +1,18 @@
 import { RegisterForm } from "../components/RegisterForm";
 import { Navbar } from "../../../components/navbar/Navbar";
+import { useAuth } from "../../../context/use-auth";
+import { Navigate } from "react-router-dom";
 
 function RegisterPage() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
   return (
     <>
       <Navbar />

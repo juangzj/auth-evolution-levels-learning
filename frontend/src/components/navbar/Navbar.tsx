@@ -2,12 +2,20 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useAuth } from "../../context/use-auth";
+import { Modal } from "../modal/Modal";
 
 export function Navbar() {
-  const { user, isAuthenticated, isLoading } = useAuth();
-
+  const { user, isAuthenticated, isLoading, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const handleLogout = async () => {
+    await logout();
+
+    setIsLogoutModalOpen(false);
+    closeMenus();
+  };
 
   const closeMenus = () => {
     setIsOpen(false);
@@ -134,11 +142,11 @@ export function Navbar() {
                     My Profile
                   </Link>
 
-                  {/* Logout - not implemented yet */}
+                  {/* Logout */}
                   <button
                     type="button"
-                    disabled
-                    className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-400"
+                    onClick={() => setIsLogoutModalOpen(true)}
+                    className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
                   >
                     Logout
                   </button>
@@ -260,6 +268,15 @@ export function Navbar() {
           </div>
         </div>
       )}
+      <Modal
+        isOpen={isLogoutModalOpen}
+        title="Logout"
+        message="Are you sure that you want to log out?"
+        onCancel={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleLogout}
+        confirmText="Yes"
+        cancelText="No"
+      />
     </header>
   );
 }
