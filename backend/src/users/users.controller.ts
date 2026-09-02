@@ -8,6 +8,7 @@ import {
   Patch,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 
 import { UserService } from './users.service';
@@ -16,6 +17,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/role.guard';
+import type { AuthenticatedRequest } from '../auth/types/authenticated-request.type';
+import { UpdateOwnUserData } from './dto/update-own-user-data.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -25,6 +28,12 @@ export class UserController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.userService.create(createUserDto);
+  }
+
+  @Roles('USER')
+  @Get('me')
+  async getMe(@Request() request: AuthenticatedRequest) {
+    return await this.findById(request.user.id);
   }
 
   @Roles('USER')
@@ -44,6 +53,18 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return await this.userService.update(id, updateUserDto);
+  }
+
+  @Patch('me')
+  @Roles('USER')
+  async updateOwnUserData(
+    @Request() request: AuthenticatedRequest,
+    @Body() updateOwnUserData: UpdateOwnUserData,
+  ) {
+    return await this.userService.updateOwnData(
+      request.user.id,
+      updateOwnUserData,
+    );
   }
 
   @Delete(':id')

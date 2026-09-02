@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateOwnUserData } from './dto/update-own-user-data.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -65,10 +66,21 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+  async updateOwnData(
+    id: string,
+    updatedOwnUSerData: UpdateOwnUserData,
+  ): Promise<User> {
+    const user = await this.findById(id);
+
+    this.userRepository.merge(user, updatedOwnUSerData);
+    return this.userRepository.save(user);
+  }
+
   async delete(id: string): Promise<void> {
     await this.findById(id);
     await this.userRepository.delete(id);
   }
+
   async findByEmailForAuth(emailToFind: string): Promise<User | null> {
     return await this.userRepository
       .createQueryBuilder('user')
