@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import { Button } from "../../../components/button/Button";
 import { FormField } from "../../../components/formField/FormField";
-import { login } from "../auth.api";
+import { useAuth } from "../../../context/use-auth";
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
