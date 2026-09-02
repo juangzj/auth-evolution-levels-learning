@@ -22,15 +22,16 @@ export class AuthController {
     @Body() dto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const token = await this.authService.login(dto);
+    const { accessToken, user } = await this.authService.login(dto);
 
-    response.cookie('access_token', token, {
+    response.cookie('access_token', accessToken, {
       httpOnly: true,
       sameSite: 'lax',
       maxAge: 15 * 60 * 1000,
     });
     return {
       message: 'Login successful',
+      user,
     };
   }
 
