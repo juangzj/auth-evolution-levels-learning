@@ -9,6 +9,7 @@ import LandingPage from "../pages/landing/LandingPage";
 import { authRoutes } from "../features/auth/routes/authRoutes";
 import { userRoutes } from "../features/user/routes/userRoutes";
 import { dashboardRoutes } from "../features/dashboard/routes/dashboardRoutes";
+import { DashboardLayout } from "../layouts/dashboard/DashboardLayout";
 
 export function AppRouter() {
   return (
@@ -18,12 +19,13 @@ export function AppRouter() {
 
       {authRoutes}
 
-      {userRoutes}
-
       {/* Protected routes */}
       <Route element={<ProtectedRoutes />}>
-        {/* Authenticated users */}
-        {dashboardRoutes}
+        <Route element={<DashboardLayout />}>
+          {/* Authenticated users */}
+          {dashboardRoutes}
+          {userRoutes}
+        </Route>
       </Route>
     </Routes>
   );

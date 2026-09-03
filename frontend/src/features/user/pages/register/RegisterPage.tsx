@@ -1,6 +1,6 @@
-import { RegisterForm } from "../components/RegisterForm";
-import { Navbar } from "../../../components/navbar/Navbar";
-import { useAuth } from "../../../context/use-auth";
+import { RegisterForm } from "../../components/RegisterForm";
+import { Navbar } from "../../../../components/navbar/Navbar";
+import { useAuth } from "../../../../context/use-auth";
 import { Navigate } from "react-router-dom";
 
 function RegisterPage() {

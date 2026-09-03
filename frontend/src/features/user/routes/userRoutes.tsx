@@ -1,8 +1,8 @@
 import { Route } from "react-router-dom";
-import RegisterPage from "../pages/RegisterPage";
+import { ProfilePage } from "../pages/profile/ProfilePage";
 
 export const userRoutes = (
   <>
-    <Route path="/register" element={<RegisterPage />} />
+    <Route path="/profile" element={<ProfilePage />} />
   </>
 );

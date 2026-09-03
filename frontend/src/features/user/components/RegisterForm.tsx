@@ -6,20 +6,21 @@ import { FormField } from "../../../components/formField/FormField";
 
 import { useNotification } from "../../../notifications/use-notification.context";
 
-import { register } from "../user.api";
+import { register } from "../../auth/auth.api";
 import type { UserRegisterData } from "../types/user-register-data.type";
+
+const initialFormData: UserRegisterData = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 export function RegisterForm() {
   const { showSuccess, showError } = useNotification();
 
-  const [formData, setFormData] = useState<UserRegisterData>({
-    id: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [formData, setFormData] = useState<UserRegisterData>(initialFormData);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,6 +36,11 @@ export function RegisterForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (formData.password !== formData.confirmPassword) {
+      showError("Passwords do not match.");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -42,14 +48,7 @@ export function RegisterForm() {
 
       showSuccess("Account created successfully.");
 
-      setFormData({
-        id: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
+      setFormData(initialFormData);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {

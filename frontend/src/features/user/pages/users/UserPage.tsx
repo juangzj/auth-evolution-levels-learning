@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { UserTable } from "../components/UserTable";
-import { findAll } from "../user.api";
-import type { User } from "../types/model/user.type";
+import { UserTable } from "../../components/UserTable";
+import { findAll } from "../../user.api";
+import type { User } from "../../types/model/user.type";
 
 export const UserPage = () => {
   const [users, setUsers] = useState<User[]>([]);

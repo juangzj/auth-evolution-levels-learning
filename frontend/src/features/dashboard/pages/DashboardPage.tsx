@@ -1,9 +1,7 @@
-import { UserPage } from "../../user/pages/UserPage";
-
 export const DashboardPage = () => {
   return (
     <div>
-      <UserPage />
+      <h1>Welcome to Dashboard</h1>
     </div>
   );
 };
