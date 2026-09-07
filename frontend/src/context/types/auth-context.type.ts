@@ -6,5 +6,6 @@ export interface AuthContext {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (data: Login) => Promise<void>;
+  refreshUser: () => Promise<void>;
   logout: () => Promise<void>;
 }

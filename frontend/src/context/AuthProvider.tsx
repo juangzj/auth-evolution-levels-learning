@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { AuthContext } from "./AuthContext";
 
@@ -13,34 +13,53 @@ import {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthContextType["user"]>(null);
-
   const [isLoading, setIsLoading] = useState(true);
 
-  // Restore user when application starts
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const userData = await getMe();
+  /*
+   * Get the current authenticated user.
+   *
+   * This is used:
+   * - when the application starts
+   * - after updating the user's profile
+   * - whenever we need fresh user information
+   */
+  const refreshUser = useCallback(async () => {
+    try {
+      const userData = await getMe();
 
-        setUser(userData);
-      } catch {
-        setUser(null);
+      setUser(userData);
+    } catch {
+      setUser(null);
+    }
+  }, []);
+
+  /*
+   * Restore authentication when the application starts.
+   */
+  useEffect(() => {
+    const restoreUser = async () => {
+      try {
+        await refreshUser();
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadUser();
-  }, []);
+    restoreUser();
+  }, [refreshUser]);
 
-  // Login
+  /*
+   * Login
+   */
   const login = async (data: Login) => {
     const response = await loginApi(data);
 
     setUser(response.user);
   };
 
-  // Logout
+  /*
+   * Logout
+   */
   const logout = async () => {
     try {
       await logoutApi();
@@ -56,6 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated: user !== null,
         isLoading,
         login,
+        refreshUser,
         logout,
       }}
     >

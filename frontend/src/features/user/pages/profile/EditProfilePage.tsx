@@ -5,13 +5,13 @@ import axios from "axios";
 import { useAuth } from "../../../../context/use-auth";
 import { useNotification } from "../../../../notifications/use-notification.context";
 
-import { UserEditOwnData } from "../../components/form/UserEditOwnData";
+import { UserEditOwnDataForm } from "../../components/form/UserEditOwnDataForm";
 import { updateOwnUserData } from "../../user.api";
 
 import type { UpdateOwnUserDto } from "../../domain/dtos/update-own-user.dto";
 
 export function EditProfilePage() {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
 
   const { showSuccess, showError } = useNotification();
 
@@ -32,6 +32,8 @@ export function EditProfilePage() {
 
     try {
       await updateOwnUserData(data);
+
+      await refreshUser();
 
       showSuccess("Profile updated successfully.");
 
@@ -60,7 +62,7 @@ export function EditProfilePage() {
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <UserEditOwnData
+        <UserEditOwnDataForm
           user={user}
           isLoading={isLoading}
           onSubmit={handleSubmit}
