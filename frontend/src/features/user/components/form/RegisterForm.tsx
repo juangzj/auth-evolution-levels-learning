@@ -1,15 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 
-import { Button } from "../../../components/button/Button";
-import { FormField } from "../../../components/formField/FormField";
+import { Button } from "../../../../components/button/Button";
+import { FormField } from "../../../../components/formField/FormField";
 
-import { useNotification } from "../../../notifications/use-notification.context";
+import { useNotification } from "../../../../notifications/use-notification.context";
 
-import { register } from "../../auth/auth.api";
-import type { UserRegisterData } from "../types/user-register-data.type";
+import { register } from "../../../auth/auth.api";
+import type { RegisterUserDto } from "../../domain/dtos/register-user.dto";
 
-const initialFormData: UserRegisterData = {
+const initialFormData: RegisterUserDto = {
   firstName: "",
   lastName: "",
   email: "",
@@ -20,7 +20,7 @@ const initialFormData: UserRegisterData = {
 export function RegisterForm() {
   const { showSuccess, showError } = useNotification();
 
-  const [formData, setFormData] = useState<UserRegisterData>(initialFormData);
+  const [formData, setFormData] = useState<RegisterUserDto>(initialFormData);
 
   const [isLoading, setIsLoading] = useState(false);
 

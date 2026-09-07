@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+import { RegisterUserDto } from 'src/users/dto/register-user.dto';
 import type { Response } from 'express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User } from 'src/users/entities/user.entity';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UserService } from 'src/users/users.service';
 
 @Controller('auth')
@@ -41,8 +41,8 @@ export class AuthController {
   }
 
   @Post('register')
-  registerNewUser(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  registerNewUser(@Body() registerUserDto: RegisterUserDto) {
+    return this.userService.register(registerUserDto);
   }
 
   @Get('me')

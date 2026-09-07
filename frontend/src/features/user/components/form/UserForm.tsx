@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import { Button } from "../../../components/button/Button";
-import { FormField } from "../../../components/formField/FormField";
+import { Button } from "../../../../components/button/Button";
+import { FormField } from "../../../../components/formField/FormField";
 
-import type { User } from "../types/model/user.type";
-import type { UpdateOwnUserDto } from "../types/dtos/update-own-user.dto";
-import type { UpdateUserDto } from "../types/dtos/update-user.dto";
+import type { User } from "../../domain/entities/user.entity";
+import type { UpdateOwnUserDto } from "../../domain/dtos/update-own-user.dto";
+import type { UpdateUserDto } from "../../domain/dtos/update-user.dto";
 
 type UserFormMode = "self" | "admin";
 

@@ -1,4 +1,4 @@
-import type { User } from "../../features/user/types/model/user.type";
+import type { User } from "../../features/user/domain/entities/user.entity";
 
 interface SidebarUserProps {
   user: User | null;

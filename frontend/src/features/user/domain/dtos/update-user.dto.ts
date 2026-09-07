@@ -5,4 +5,5 @@ export interface UpdateUserDto {
   lastName?: string;
   email?: string;
   role?: UserRole;
+  password: string;
 }

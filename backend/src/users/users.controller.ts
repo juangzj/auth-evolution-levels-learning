@@ -25,18 +25,36 @@ import { UpdateOwnUserData } from './dto/update-own-user-data.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return await this.userService.create(createUserDto);
-  }
+  // =============
+  // SEFL
+  // =============
 
-  @Roles('USER')
   @Get('me')
   async getMe(@Request() request: AuthenticatedRequest) {
     return await this.findById(request.user.id);
   }
 
-  @Roles('USER')
+  @Patch('me')
+  async updateOwnUserData(
+    @Request() request: AuthenticatedRequest,
+    @Body() updateOwnUserData: UpdateOwnUserData,
+  ) {
+    return await this.userService.updateOwnData(
+      request.user.id,
+      updateOwnUserData,
+    );
+  }
+
+  // =============
+  // ADMIN / USER MANAGEMENT
+  // =============
+
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.userService.create(createUserDto);
+  }
+
+  @Roles('ADMIN')
   @Get()
   async findAll() {
     return await this.userService.findAll();
@@ -53,18 +71,6 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return await this.userService.update(id, updateUserDto);
-  }
-
-  @Patch('me')
-  @Roles('USER')
-  async updateOwnUserData(
-    @Request() request: AuthenticatedRequest,
-    @Body() updateOwnUserData: UpdateOwnUserData,
-  ) {
-    return await this.userService.updateOwnData(
-      request.user.id,
-      updateOwnUserData,
-    );
   }
 
   @Delete(':id')

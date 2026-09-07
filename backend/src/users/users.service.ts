@@ -9,6 +9,7 @@ import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateOwnUserData } from './dto/update-own-user-data.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -28,9 +29,6 @@ export class UserService {
       throw new ConflictException('Email is already exists');
     }
 
-    if (createUserDto.password !== createUserDto.confirmPassword) {
-      throw new ConflictException('The passwords do not match');
-    }
     // hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(
@@ -41,6 +39,34 @@ export class UserService {
     // create the user entity
     const user = this.userRepository.create({
       ...createUserDto,
+      password: hashedPassword,
+    });
+    return await this.userRepository.save(user);
+  }
+
+  async register(registerUserDto: RegisterUserDto) {
+    // check if user already exists
+    const existingUser = await this.userRepository.findOne({
+      where: { email: registerUserDto.email },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('Email is already exists');
+    }
+
+    if (registerUserDto.password !== registerUserDto.confirmPassword) {
+      throw new ConflictException('The passwords do not match');
+    }
+    // hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(
+      registerUserDto.password,
+      saltRounds,
+    );
+
+    // create the user entity
+    const user = this.userRepository.create({
+      ...registerUserDto,
       password: hashedPassword,
     });
     return await this.userRepository.save(user);
