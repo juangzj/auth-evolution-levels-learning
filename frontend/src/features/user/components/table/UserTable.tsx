@@ -1,4 +1,4 @@
-import type { UserTableProps } from "../../domain/types/user-table-props.type";
+import type { UserTableProps } from "./types/user-table-props.type";
 import { UserTableEmpty } from "./UserTableEmpty";
 import { UserTableFooter } from "./UserTableFooter";
 import { UserTableHeader } from "./UserTableHeader";

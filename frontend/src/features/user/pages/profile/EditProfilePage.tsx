@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAuth } from "../../../../context/use-auth";
 import { useNotification } from "../../../../notifications/use-notification.context";
 
-import { UserForm } from "../../components/form/UserForm";
+import { UserEditOwnData } from "../../components/form/UserEditOwnData";
 import { updateOwnUserData } from "../../user.api";
 
 import type { UpdateOwnUserDto } from "../../domain/dtos/update-own-user.dto";
@@ -28,9 +28,9 @@ export function EditProfilePage() {
   }
 
   const handleSubmit = async (data: UpdateOwnUserDto) => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
+    try {
       await updateOwnUserData(data);
 
       showSuccess("Profile updated successfully.");
@@ -60,9 +60,8 @@ export function EditProfilePage() {
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <UserForm
-          mode="self"
-          initialData={user}
+        <UserEditOwnData
+          user={user}
           isLoading={isLoading}
           onSubmit={handleSubmit}
         />

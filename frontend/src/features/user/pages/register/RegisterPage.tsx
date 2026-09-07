@@ -1,4 +1,4 @@
-import { RegisterForm } from "../../components/form/RegisterForm";
+import { UserRegisterForm } from "../../components/form/UserRegisterForm";
 import { Navbar } from "../../../../components/navbar/Navbar";
 import { useAuth } from "../../../../context/use-auth";
 import { Navigate } from "react-router-dom";
@@ -32,7 +32,7 @@ function RegisterPage() {
 
           {/* Form container */}
           <div className="rounded-xl bg-white p-6 shadow-sm sm:p-8">
-            <RegisterForm />
+            <UserRegisterForm />
           </div>
         </div>
       </main>
