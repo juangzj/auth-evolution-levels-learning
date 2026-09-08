@@ -22,3 +22,5 @@ export async function register(registerUserDto: RegisterUserDto) {
   const response = await api.post("/auth/register", registerUserDto);
   return response.data;
 }
+
+export async function getUserById(id: string) {}

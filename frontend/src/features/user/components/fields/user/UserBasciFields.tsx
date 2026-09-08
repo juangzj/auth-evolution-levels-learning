@@ -4,6 +4,7 @@ interface UserBasicFieldsProps {
   firstName: string;
   lastName: string;
   email: string;
+  showEmail?: boolean;
   emailDisabled?: boolean;
   isLoading?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -13,16 +14,15 @@ export function UserBasicFields({
   firstName,
   lastName,
   email,
+  showEmail = true,
   emailDisabled = false,
   isLoading = false,
   onChange,
 }: UserBasicFieldsProps) {
   return (
     <>
-      {" "}
-      {/* First name + Last name */}{" "}
+      {/* First name + Last name */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {" "}
         <FormField
           label="First name"
           id="firstName"
@@ -33,7 +33,8 @@ export function UserBasicFields({
           onChange={onChange}
           disabled={isLoading}
           required
-        />{" "}
+        />
+
         <FormField
           label="Last name"
           id="lastName"
@@ -44,20 +45,23 @@ export function UserBasicFields({
           onChange={onChange}
           disabled={isLoading}
           required
-        />{" "}
-      </div>{" "}
-      {/* Email */}{" "}
-      <FormField
-        label="Email"
-        id="email"
-        name="email"
-        type="email"
-        placeholder="you@example.com"
-        value={email}
-        onChange={onChange}
-        disabled={emailDisabled || isLoading}
-        required
-      />{" "}
+        />
+      </div>
+
+      {/* Email */}
+      {showEmail && (
+        <FormField
+          label="Email"
+          id="email"
+          name="email"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={onChange}
+          disabled={emailDisabled || isLoading}
+          required
+        />
+      )}
     </>
   );
 }

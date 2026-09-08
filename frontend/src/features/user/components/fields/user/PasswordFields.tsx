@@ -5,6 +5,7 @@ interface PasswordFieldsProps {
   confirmPassword?: string;
   showConfirmPassword?: boolean;
   isLoading?: boolean;
+  required?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -13,11 +14,11 @@ export function PasswordFields({
   confirmPassword = "",
   showConfirmPassword = true,
   isLoading = false,
+  required = true,
   onChange,
 }: PasswordFieldsProps) {
   return (
     <>
-      {" "}
       <FormField
         label="Password"
         id="password"
@@ -27,8 +28,9 @@ export function PasswordFields({
         value={password}
         onChange={onChange}
         disabled={isLoading}
-        required
-      />{" "}
+        required={required}
+      />
+
       {showConfirmPassword && (
         <FormField
           label="Confirm password"
@@ -39,9 +41,9 @@ export function PasswordFields({
           value={confirmPassword}
           onChange={onChange}
           disabled={isLoading}
-          required
+          required={required}
         />
-      )}{" "}
+      )}
     </>
   );
 }

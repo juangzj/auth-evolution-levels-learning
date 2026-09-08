@@ -11,7 +11,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   lastName!: string;
 
-  @IsEmail({}, { message: 'Please provide a valir email addres' })
+  @IsEmail({}, { message: 'Please provide a valid email addres' })
   email!: string;
 
   @IsString()

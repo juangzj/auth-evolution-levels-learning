@@ -13,12 +13,17 @@ export async function updateOwnUserData(updateOwnUserDto: UpdateOwnUserDto) {
   return response.data;
 }
 
-export async function updateUser(userId: string, updateUserDto: UpdateUserDto) {
-  const response = await api.patch<User>(`/users/${userId}`, updateUserDto);
+export async function updateUser(id: string, updateUserDto: UpdateUserDto) {
+  const response = await api.patch<User>(`/users/${id}`, updateUserDto);
   return response.data;
 }
 
-export async function deleteUser(userId: string) {
-  const response = await api.delete(`/users/${userId}`);
+export async function deleteUser(id: string) {
+  const response = await api.delete(`/users/${id}`);
   return response.data;
+}
+
+export async function getUserById(id: string) {
+  const response = await api.get(`/users/${id}`);
+  return response;
 }

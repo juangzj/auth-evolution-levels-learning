@@ -19,6 +19,7 @@ export function UserRegisterForm() {
   const { showSuccess, showError } = useNotification();
   const [formData, setFormData] = useState<RegisterUserDto>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((previousData) => ({ ...previousData, [name]: value }));
