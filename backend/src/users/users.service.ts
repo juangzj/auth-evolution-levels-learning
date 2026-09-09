@@ -11,6 +11,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateOwnUserData } from './dto/update-own-user-data.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import * as bcrypt from 'bcrypt';
+import { FindUsersQueryDto } from './dto/find-users-query.dto';
 
 @Injectable()
 export class UserService {
@@ -72,8 +73,55 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+  async findAll(query: FindUsersQueryDto): Promise<{
+    data: User[];
+    meta: {
+      total: number;
+      page: number;
+      limit: number;
+      totalPages: number;
+    };
+  }> {
+    const { page = 1, limit = 10, name, email, role } = query;
+
+    const skip = (page - 1) * limit;
+
+    const queryBuilder = this.userRepository
+      .createQueryBuilder('users')
+      .skip(skip)
+      .take(limit);
+
+    if (name) {
+      queryBuilder.andWhere(
+        '(LOWER(user.firstName) LIKE LOWER(:name) OR LOWER(user.lastName) LIKE LOWER(:name))',
+        { name: `%${name}` },
+      );
+    }
+    if (email) {
+      queryBuilder.andWhere('LOWER(user.email) LIKE LOWER(:email)', {
+        email: `%${email}`,
+      });
+    }
+
+    if (role) {
+      queryBuilder.andWhere('user.role = :role', {
+        role,
+      });
+    }
+
+    queryBuilder.orderBy('user.createdAt', 'DESC');
+
+    const [users, total] = await queryBuilder.getManyAndCount();
+
+    return {
+      data: users,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findById(id: string): Promise<User> {

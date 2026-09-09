@@ -2,9 +2,13 @@ import { api } from "../../api/axios";
 import type { User } from "./domain/entities/user.entity";
 import type { UpdateOwnUserDto } from "./domain/dtos/update-own-user.dto";
 import type { UpdateUserDto } from "./domain/dtos/update-user.dto";
+import type { UserListQuery } from "./types/pagination/user-list-query.type";
+import type { UserListResponse } from "./types/pagination/user-list-response.type";
 
-export async function findAll() {
-  const response = await api.get<User[]>("/users");
+export async function findAll(
+  params: Partial<UserListQuery> = {},
+): Promise<UserListResponse> {
+  const response = await api.get<UserListResponse>("/users", { params });
   return response.data;
 }
 

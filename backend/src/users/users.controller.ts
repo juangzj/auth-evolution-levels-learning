@@ -9,6 +9,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 
 import { UserService } from './users.service';
@@ -19,6 +20,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import type { AuthenticatedRequest } from '../auth/types/authenticated-request.type';
 import { UpdateOwnUserData } from './dto/update-own-user-data.dto';
+import { FindUsersQueryDto } from './dto/find-users-query.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -56,8 +58,8 @@ export class UserController {
 
   @Roles('ADMIN')
   @Get()
-  async findAll() {
-    return await this.userService.findAll();
+  async findAll(@Query() query: FindUsersQueryDto) {
+    return await this.userService.findAll(query);
   }
 
   @Get(':id')
